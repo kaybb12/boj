@@ -1,75 +1,84 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
+#include <array>
+#include <vector>
 #include <queue>
 
 using namespace std;
-using Matrix = vector<vector<int>>;
 
-static Matrix graph;
-static vector<bool> is_visited;
+using Graph = vector<vector<int>>;
 
-void reset() {
-	for (auto v : is_visited) {
-		v = false;
+inline void sort(Graph& graph) {
+	for (auto& edges : graph)
+		sort(edges.begin(), edges.end());
+}
+
+void _dfs(const Graph& graph, vector<bool>& visited, const int cur) {
+	visited[cur] = true;
+
+	cout << cur << " "; // print
+
+	for (const auto& next : graph[cur]) {
+		if (!visited[next])
+			_dfs(graph, visited, next);
 	}
 }
 
-void dfs(int cur) {
-	is_visited[cur] = true;
-	cout << cur << " ";
+void dfs(const Graph& graph, const int start) {
+	vector<bool> visited(graph.size());
 
-	for (int i = 0; i < graph[cur].size(); ++i) {
-		int next = graph[cur][i];
-		if (!is_visited[next]) {
-			dfs(next);
-		}
-	}
+	_dfs(graph, visited, start);
+
+	cout << "\n";
 }
 
-void bfs(int start) {
+void bfs(const Graph& graph, const int start) {
+	vector<bool> visited(graph.size());
 	queue<int> q;
-	q.push(start);
-	is_visited[start] = true;
 
-	while(!q.empty()) {
+	q.emplace(start);
+	visited[start] = true;
+
+	while (!q.empty()) {
 		int cur = q.front();
 		q.pop();
 
-		cout << cur << " ";
+		cout << cur << " "; //print;
 
-		for (int i = 0; i < graph[cur].size(); ++i) {
-			int next = graph[cur][i];
-			if (!is_visited[next]) {
-				q.push(next);
-				is_visited[next] = true;
+		for (const auto& next : graph[cur]) {
+			if(!visited[next]) {
+				visited[next] = true;
+				q.emplace(next);
 			}
 		}
 	}
+
+	cout << "\n";
 }
 
 int main() {
-	int n, m, v;
-	cin >> n >> m >> v;
+	cin.tie(nullptr);
+	ios_base::sync_with_stdio(false);
 
-	graph.assign(n + 1, vector<int> (0,0));
-	is_visited.assign(n + 1, false);
+	int ver_cnt, edge_cnt, start;
 
-	for (int i = 1; i <= m; ++i) {
-		int x1, x2;
-		cin >> x1 >> x2;
+	cin >> ver_cnt >> edge_cnt;
+	cin >> start;
 
-		graph[x1].push_back(x2);
-		graph[x2].push_back(x1);
+	Graph graph(ver_cnt + 1);
+
+	for (int i = 0; i < edge_cnt; ++i) {
+		int from, to;
+		cin >> from >> to;
+
+		graph[from].emplace_back(to);
+		graph[to].emplace_back(from);
 	}
 
-	for (int i = 1; i <= n; ++i) {
-		sort(graph[i].begin(), graph[i].end());
-	}
+	sort(graph);
 
-	dfs(v);
-	cout << "\n";
-	reset();
-	bfs(v);
-	cout << "\n";
+	dfs(graph, start);
+	bfs(graph, start);
+
+	return 0;
 }

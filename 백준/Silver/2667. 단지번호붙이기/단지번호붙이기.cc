@@ -1,88 +1,92 @@
+#include <array>
+#include <algorithm>
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <algorithm>
-#include <array>
 
 using namespace std;
-using Matrix_int = vector<vector<int>>;
-using Matrix_bool = vector<vector<bool>>;
 
-static int N; // 단지 크기
-static int cnt = 0; //단지 개수
-static int x = 0; // 단지 카운트 시작좌표
-static int y = 0; // 단지 카운트 시작좌표
-static Matrix_bool is_visited; // 방문 여부 확인
-static Matrix_int estates; //단지 저장
-static vector<int> estate_nums; // 단지 별 개수 저장
-static array<int, 4> x_dir = {-1, 1, 0, 0}; //사방확인 x축
-static array<int, 4> y_dir = {0, 0, -1, 1}; //사방확인 y축
+using Matrix = vector<vector<char>>;
+using Point = pair<int, int>;
 
-void numbering_estate(int start_x, int start_y) {
-	queue<pair<int, int>> q;
-	q.push(make_pair(start_x, start_y));
-	is_visited[start_x][start_y] = true;
-	++cnt; 
+static constexpr char EMPTY = '0';
+static constexpr char HOUSE = '1';
+static constexpr char CHECKED = '0';
 
-	while(!q.empty()) {
-		int x = q.front().first;
-		int y = q.front().second;
-		
+static constexpr array<pair<int, int>, 4> dirs = { {
+	{ 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 }
+}};
+
+int bfs(Matrix& map, const int start_r, const int start_c) {
+	queue<Point> q;
+	q.emplace(start_r, start_c);
+
+	map[start_r][start_c] = CHECKED;
+
+	int area = 0;
+	while (!q.empty()) {
+		auto [ r, c ] = q.front();
 		q.pop();
+		++area;
 
-		//현재 좌표의 사방
-		for (int i = 0; i < 4; ++i) {
-			int x_new = x + x_dir[i]; 
-			int y_new = y + y_dir[i];
+		for (const auto& [ dr, dc ] : dirs) {
+			int nr = r + dr;
+			int nc = c + dc;
 
-			//사방이 미로내의 존재, 방문여부, 이동가능여부확인
-			if ((x_new >= 0 && x_new < N) && (y_new >= 0 && y_new <N)
-				&& !is_visited[x_new][y_new]
-				&& estates[x_new][y_new] == 1) {
-				is_visited[x_new][y_new] = true;
-				q.push(make_pair(x_new, y_new));
-				++cnt;
+			if (map[nr][nc] == HOUSE) {
+				map[nr][nc] = CHECKED;
+				q.emplace(nr, nc);
 			}
 		}
+	}
+
+	return area;
+}
+
+vector<int> get_areas(Matrix& map) {
+	vector<int> areas;
+
+	for (int i = 1; i < map.size(); ++i) {
+		for (int j = 1; j < map[i].size(); ++j) {
+			if (map[i][j] == HOUSE) {
+				int area = bfs(map, i, j);
+				areas.emplace_back(area);
+			}
+		}
+	}
+
+	return areas;
+}
+
+inline void print_area_info(const vector<int>& areas) {
+	// area count
+	cout << areas.size() << "\n";
+
+	// each area
+	for (const auto area : areas) {
+		cout << area << "\n";
 	}
 }
 
 int main() {
-	cin >> N;
+	cin.tie(nullptr);
+	ios_base::sync_with_stdio(false);
 
-	estates.assign(N, vector<int>(N, 0));
-	is_visited.assign(N, vector<bool>(N, false));
-	for (int i = 0; i < estates.size(); ++i) {
-		for (int j = 0; j < estates[i].size(); ++j) {
-			char temp;
-			cin >> temp;
-			estates[i][j] = temp - '0';
-		}
-	}
-	
-	for (int i = 0; i < estate_nums.size(); ++i) {
-		cout << estate_nums[i] << "\n";
-	}
+	int n;
+	cin >> n;
 
+	Matrix map(n + 2, vector<char>(n + 2, EMPTY));
 
-	for (int i = 0; i < N; ++i) {
-		for (int j = 0; j < N; ++j) {
-			if (estates[i][j] == 1 
-				&& is_visited[i][j] == false) {
-				cnt = 0;
-				numbering_estate(i, j);
-				estate_nums.push_back(cnt);
-			}
+	for (int i = 1; i <= n; ++i) {
+		for (int j = 1; j <= n; ++j) {
+			cin >> map[i][j];
 		}
 	}
 
-	sort(estate_nums.begin(), estate_nums.end());
+	vector<int> areas = get_areas(map);
+	sort(areas.begin(), areas.end());
 
-	cout << estate_nums.size() << "\n";
-
-	for (auto estate_num : estate_nums) {
-		cout << estate_num << "\n";
-	}
+	print_area_info(areas);
 
 	return 0;
 }

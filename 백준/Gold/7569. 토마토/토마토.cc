@@ -1,83 +1,116 @@
-#include <iostream>
-#include <vector>
 #include <array>
+#include <iostream>
 #include <queue>
-#include <algorithm>
+#include <vector>
+#include <tuple>
 
 using namespace std;
 
-static vector<vector<vector<int>>> tomato_box; // 토마토 상태저장
-static vector<vector<vector<int>>> date; // 일 수 체크
-static vector<vector<vector<bool>>> is_visited; // 방문 여부
-static array<int, 6> x_dir = {-1, 1, 0, 0, 0, 0}, y_dir = {0, 0, -1, 1, 0, 0}, z_dir = {0, 0, 0, 0, -1, 1}; // 6방 체크 좌표
-static int WIDTH, LENGTH, HEIGHT; // 가로 세로 높이
-static int DAY = 0; // 일 수 저장
+using Matrix = vector<vector<int>>;
+using Tensor = vector<Matrix>;
+using Point = tuple<int, int, int>;
 
-static queue<pair<pair<int, int>, int>> q;
+class TomatoProblem {
+	static constexpr int EMPTY = -1;
+	static constexpr int UNRIPE = 0;
+	static constexpr int RIPE = 1;
 
-void get_date() {
-	while(!q.empty()) {
-		int dx = q.front().first.first;
-		int dy = q.front().first.second;
-		int dz = q.front().second;
-		q.pop();
-		for (int i = 0; i < 6; ++i) {
-			int nx = dx + x_dir[i];
-			int ny = dy + y_dir[i];
-			int nz = dz + z_dir[i];
+	static constexpr array<Point, 6> dirs = { {
+		{ 0, 0, 1 }, { 0, 0, -1 },
+		{ 0, 1, 0 }, { 0, -1, 0 },
+		{ 1, 0, 0 }, { -1, 0, 0 }
+	} };
 
-			if ((nx >= 0 && nx < HEIGHT) && 
-				(ny >= 0 && ny < LENGTH) &&
-				(nz >= 0 && nz < WIDTH) &&
-				(!is_visited[nx][ny][nz]) &&
-				(tomato_box[nx][ny][nz] == 0)) {
+	Tensor tomato_box;
+	int m, n, h;
 
-				is_visited[nx][ny][nz] = true;
-				tomato_box[nx][ny][nz] = 1;
-				date[nx][ny][nz] = date[dx][dy][dz] + 1;
+public:
+	TomatoProblem(const int m, const int n, const int h) : m{m}, n{n}, h{h} {
+		tomato_box = Tensor(h + 2, Matrix(n + 2, vector<int>(m + 2, EMPTY)));
 
-				if (DAY < date[nx][ny][nz]) {
-					DAY = date[nx][ny][nz];
-				}
+		get_input();
+	}
 
-				q.push(make_pair(make_pair(nx, ny), nz));
-			} 
+	inline void get_input() {
+		for (int i = 1; i <= h; ++i) {
+			for (int j = 1; j <= n; ++j)
+				for (int k = 1; k <= m; ++k)
+					cin >> tomato_box[i][j][k];
 		}
 	}
 
-	for (int i = 0; i < HEIGHT; ++i) {
-		for (int j = 0; j < LENGTH; ++j) {
-			for (int k = 0; k < WIDTH; ++k) {
-				if (tomato_box[i][j][k] == 0) {
-					DAY = -1;
-					return;
+	void find_ripen_tomato() {
+		bfs();
+	}
+
+	void bfs() {
+		queue<Point> q;
+
+		for (int i = 1; i <= h; ++i) {
+			for (int j = 1; j <= n; ++j)
+				for (int k = 1; k <= m; ++k)
+					if (tomato_box[i][j][k] == RIPE)
+						q.emplace(i, j, k);
+		}
+
+		while(!q.empty()) {
+			auto [r, c, t] = q.front();
+			q.pop();
+
+			int date = tomato_box[r][c][t] + 1;
+
+			for (const auto& [ dr, dc, dt ] : dirs) {
+				int nr = r + dr;
+				int nc = c + dc;
+				int nt = t + dt;
+
+				if (tomato_box[nr][nc][nt] == UNRIPE) {
+					tomato_box[nr][nc][nt] = date;
+					q.emplace(nr, nc, nt);
 				}
 			}
 		}
 	}
-}
+
+	inline bool is_all_ripe() {
+		for (const auto& mat : tomato_box) {
+			for (const auto& vec : mat)
+				for (const auto tomato : vec)
+					if (tomato == UNRIPE)
+						return false;
+		}
+
+		return true;
+	}
+
+	inline int get_max_date() {
+		int max = -1;
+
+		for (const auto& mat : tomato_box) {
+			for (const auto& vec : mat)
+				for (const auto tomato : vec)
+					if (tomato > max)
+						max = tomato;
+		}
+
+		return max;
+	}
+};
 
 int main() {
-	cin >> WIDTH >> LENGTH >> HEIGHT;
+	cin.tie(nullptr);
+	ios_base::sync_with_stdio(false);
 
-	tomato_box.resize(HEIGHT, vector<vector<int>>(LENGTH, vector<int>(WIDTH, 0)));
-	date.resize(HEIGHT, vector<vector<int>>(LENGTH, vector<int>(WIDTH, 0)));
-	is_visited.resize(HEIGHT, vector<vector<bool>>(LENGTH, vector<bool>(WIDTH, false)));
+	int m, n, h;
+	cin >> m >> n >> h;
 
-	for (int i = 0; i < HEIGHT; ++i) {
-		for (int j = 0; j < LENGTH; ++j) {
-			for (int k = 0; k < WIDTH; ++k) {
-				cin >> tomato_box[i][j][k];
-				if (tomato_box[i][j][k] == 1) {
-					q.push(make_pair(make_pair(i, j), k));
-				}
-			}
-		}
-	}
+	TomatoProblem problem(m, n, h);
+	problem.find_ripen_tomato();
 
-	get_date();
-
-	cout << DAY << "\n";
+	if (problem.is_all_ripe())
+		cout << problem.get_max_date() - 1 << "\n";
+	else
+		cout << -1 << "\n";
 
 	return 0;
 }

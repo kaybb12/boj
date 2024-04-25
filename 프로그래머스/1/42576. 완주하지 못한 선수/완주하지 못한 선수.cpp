@@ -10,15 +10,15 @@ string solution(vector<string> participants, vector<string> completions) {
     
     unordered_map<string, int> hash;
     
-    for (auto participant : participants) {
+    for (const auto& participant : participants) {
         hash[participant] += 1;
     }
     
-    for (auto completion : completions) {
+    for (const auto& completion : completions) {
         hash[completion] -= 1;
     }
     
-    for (auto participant : participants) {
+    for (const auto& participant : participants) {
         if (hash[participant] == 1)
             answer = participant;
     }

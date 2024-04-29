@@ -5,29 +5,19 @@ using namespace std;
 
 bool solution(string str)
 {
-    bool answer = true;
+    int cnt = 0;
     
-    if (str.front() == ')' || str.back() == '(')
-        return false;
-    
-    int left_cnt = 0;
-    int right_cnt = 0;
-    
-    for (const auto& s : str) {
-        if (s == '(')
-            ++left_cnt;
-        else if (s == ')')
-            ++right_cnt;
-        
-        if (right_cnt > left_cnt)
+    for (const auto s : str) {
+        if (cnt < 0)
             return false;
+        
+        if (s == '(')
+            ++cnt;
+        else if (s == ')')
+            --cnt;
     }
-    
-    if (left_cnt != right_cnt)
-        return false;  
-
     // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
     cout << "Hello Cpp" << endl;
 
-    return answer;
+    return (cnt == 0);
 }

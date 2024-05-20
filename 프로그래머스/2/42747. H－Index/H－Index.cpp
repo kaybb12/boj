@@ -10,12 +10,10 @@ int solution(vector<int> citations) {
     sort(citations.begin(), citations.end());
     
     for (int i = 0; i < citations.size(); ++i) {
-        int h = citations.size() - i;
+        int h = citations[i];
         
-        if(citations[i] >= h) {
-            answer = h;
-            break;
-        }
+        if(citations.size() - i >= h && i <= h)
+            answer = citations[i];
     }
     
     return answer;

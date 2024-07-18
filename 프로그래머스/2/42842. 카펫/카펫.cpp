@@ -7,9 +7,7 @@ bool cmp(int yellow, int i, int brown) {
     return ((((yellow / i) + i) * 2) + 4) == brown;
 }
 
-vector<int> solution(int brown, int yellow) {
-    vector<int> answer;
-    
+vector<int> solution(int brown, int yellow) {    
     int width, height;
     
     for (int i = 1; i * i <= yellow; ++i) {
@@ -24,8 +22,5 @@ vector<int> solution(int brown, int yellow) {
         }
     }
     
-    answer.emplace_back(width);
-    answer.emplace_back(height);
-    
-    return answer;
+    return {width, height};
 }

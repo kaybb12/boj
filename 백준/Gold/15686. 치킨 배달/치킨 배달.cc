@@ -78,6 +78,9 @@ int get_chicken_distance(int m, vector<Point>& homes, vector<Point>& chickens, M
 }
 
 int main() {
+	cin.tie(nullptr);
+	ios_base::sync_with_stdio(false);
+
 	int n, m;
 	cin >> n >> m;
 

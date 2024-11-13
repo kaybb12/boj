@@ -106,6 +106,7 @@
 | D4 | 1210 | [S/W 문제해결 기본] 2일차 - Ladder1  | [&nbsp;🔗&nbsp;](SWEA/D4/1210.%E2%80%85%EF%BC%BBS%EF%BC%8FW%E2%80%85%EB%AC%B8%EC%A0%9C%ED%95%B4%EA%B2%B0%E2%80%85%EA%B8%B0%EB%B3%B8%EF%BC%BD%E2%80%852%EC%9D%BC%EC%B0%A8%E2%80%85%EF%BC%8D%E2%80%85Ladder1/README.md) | <small></small> |
 | D4 | 1486 | 장훈이의 높은 선반  | [&nbsp;🔗&nbsp;](SWEA/D4/1486.%E2%80%85%EC%9E%A5%ED%9B%88%EC%9D%B4%EC%9D%98%E2%80%85%EB%86%92%EC%9D%80%E2%80%85%EC%84%A0%EB%B0%98/README.md) | <small></small> |
 | D3 | 1206 | [S/W 문제해결 기본] 1일차 - View  | [&nbsp;🔗&nbsp;](SWEA/D3/1206.%E2%80%85%EF%BC%BBS%EF%BC%8FW%E2%80%85%EB%AC%B8%EC%A0%9C%ED%95%B4%EA%B2%B0%E2%80%85%EA%B8%B0%EB%B3%B8%EF%BC%BD%E2%80%851%EC%9D%BC%EC%B0%A8%E2%80%85%EF%BC%8D%E2%80%85View/README.md) | <small></small> |
+| D2 | 22654 | 차윤이의 RC카  | [&nbsp;🔗&nbsp;](SWEA/D2/22654.%E2%80%85%EC%B0%A8%EC%9C%A4%EC%9D%B4%EC%9D%98%E2%80%85RC%EC%B9%B4/README.md) | <small></small> |
 
 
 ## 📁 프로그래머스

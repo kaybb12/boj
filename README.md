@@ -34,6 +34,7 @@
 | Silver IV | 1269 | 대칭 차집합  | [&nbsp;🔗&nbsp;](%EB%B0%B1%EC%A4%80/Silver/1269.%E2%80%85%EB%8C%80%EC%B9%AD%E2%80%85%EC%B0%A8%EC%A7%91%ED%95%A9/README.md) | <small>`자료 구조` `해시를 사용한 집합과 맵` `트리를 사용한 집합과 맵` </small> |
 | Silver IV | 1620 | 나는야 포켓몬 마스터 이다솜  | [&nbsp;🔗&nbsp;](%EB%B0%B1%EC%A4%80/Silver/1620.%E2%80%85%EB%82%98%EB%8A%94%EC%95%BC%E2%80%85%ED%8F%AC%EC%BC%93%EB%AA%AC%E2%80%85%EB%A7%88%EC%8A%A4%ED%84%B0%E2%80%85%EC%9D%B4%EB%8B%A4%EC%86%9C/README.md) | <small>`자료 구조` `해시를 사용한 집합과 맵` </small> |
 | Silver IV | 1764 | 듣보잡  | [&nbsp;🔗&nbsp;](%EB%B0%B1%EC%A4%80/Silver/1764.%E2%80%85%EB%93%A3%EB%B3%B4%EC%9E%A1/README.md) | <small>`자료 구조` `해시를 사용한 집합과 맵` `정렬` `문자열` </small> |
+| Silver IV | 1920 | 수 찾기  | [&nbsp;🔗&nbsp;](%EB%B0%B1%EC%A4%80/Silver/1920.%E2%80%85%EC%88%98%E2%80%85%EC%B0%BE%EA%B8%B0/README.md) | <small>`이분 탐색` `자료 구조` `해시를 사용한 집합과 맵` `정렬` </small> |
 | Silver IV | 2164 | 카드2  | [&nbsp;🔗&nbsp;](%EB%B0%B1%EC%A4%80/Silver/2164.%E2%80%85%EC%B9%B4%EB%93%9C2/README.md) | <small>`자료 구조` `큐` </small> |
 | Silver IV | 2485 | 가로수  | [&nbsp;🔗&nbsp;](%EB%B0%B1%EC%A4%80/Silver/2485.%E2%80%85%EA%B0%80%EB%A1%9C%EC%88%98/README.md) | <small>`유클리드 호제법` `수학` `정수론` </small> |
 | Silver IV | 4134 | 다음 소수  | [&nbsp;🔗&nbsp;](%EB%B0%B1%EC%A4%80/Silver/4134.%E2%80%85%EB%8B%A4%EC%9D%8C%E2%80%85%EC%86%8C%EC%88%98/README.md) | <small>`브루트포스 알고리즘` `수학` `정수론` `소수 판정` </small> |
